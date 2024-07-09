@@ -1,0 +1,156 @@
+# https://pre-commit.com/hooks.html
+
+ci:
+  autoupdate_schedule: quarterly
+  skip:
+    - copyright
+    - workflows-require-timeout
+    - poetry-check
+    - poetry-lock
+    - pipenv-lock
+    - helm-lock
+    - ripsecrets
+    - jsonschema-validator
+repos:
+  - repo: local
+    hooks:
+      - id: integrity-updater
+        name: Update the integrity of the HTML files
+        entry: integrity-updater
+        language: python
+        types:
+          - html
+        exclude: ^tests/test.html$
+  - repo: https://github.com/sbrunner/hooks
+    rev: 1.0.0
+    hooks:
+      - id: copyright
+      - id: workflows-require-timeout
+      - id: poetry-check
+        additional_dependencies:
+          - poetry==1.8.3 # pypi
+      - id: poetry-lock
+        additional_dependencies:
+          - poetry==1.8.3 # pypi
+  - repo: https://github.com/pre-commit/pre-commit
+    rev: v3.7.1
+    hooks:
+      - id: validate_manifest
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: detect-private-key
+      - id: check-merge-conflict
+      - id: check-ast
+      - id: debug-statements
+      - id: name-tests-test
+      - id: check-toml
+      - id: check-yaml
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: mixed-line-ending
+      - id: check-json
+  - repo: https://github.com/psf/black
+    rev: 24.4.2
+    hooks:
+      - id: black
+  - repo: https://github.com/PyCQA/isort
+    rev: 5.13.2
+    hooks:
+      - id: isort
+  - repo: https://github.com/PyCQA/docformatter
+    rev: v1.7.5
+    hooks:
+      - id: docformatter
+  - repo: https://github.com/PyCQA/prospector
+    rev: v1.10.3
+    hooks:
+      - id: prospector
+        args: [--tool=pydocstyle, --die-on-tool-error]
+        additional_dependencies:
+          - prospector-profile-duplicated==1.5.0 # pypi
+  - repo: https://github.com/PyCQA/autoflake
+    rev: v2.3.1
+    hooks:
+      - id: autoflake
+  - repo: https://github.com/codespell-project/codespell
+    rev: v2.3.0
+    hooks:
+      - id: codespell
+        args:
+          - --ignore-words=.github/spell-ignore-words.txt
+        exclude: ^poetry.lock$
+  - repo: https://github.com/asottile/pyupgrade
+    rev: v3.16.0
+    hooks:
+      - id: pyupgrade
+        args:
+          - --py39-plus
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v3.1.0
+    hooks:
+      - id: prettier
+        additional_dependencies:
+          - prettier@3.3.2 # npm
+          - prettier-plugin-sh@0.14.0 # npm
+          - prettier-plugin-toml@2.0.1 # npm
+        exclude: |-
+          (?x)^(
+              \.gitattributes
+              |\.gitignore
+          )$
+  - repo: https://github.com/shellcheck-py/shellcheck-py
+    rev: v0.10.0.1
+    hooks:
+      - id: shellcheck
+  - repo: https://github.com/jumanjihouse/pre-commit-hooks
+    rev: 3.0.0
+    hooks:
+      - id: git-check
+  - repo: https://github.com/python-jsonschema/check-jsonschema
+    rev: 0.28.6
+    hooks:
+      - id: check-github-workflows
+      - id: check-renovate
+        additional_dependencies:
+          - pyjson5==1.6.6 # pypi
+      - id: check-github-actions
+      - id: check-jsonschema
+        name: Check GitHub Workflows set timeout-minutes
+        files: ^\.github/workflows/[^/]+$
+        types:
+          - yaml
+        args:
+          - --builtin-schema
+          - github-workflows-require-timeout
+  - repo: https://github.com/sirwart/ripsecrets.git
+    rev: v0.1.8
+    hooks:
+      - id: ripsecrets
+  - repo: https://github.com/sbrunner/hooks
+    rev: 1.0.0
+    hooks:
+      - id: copyright
+      - id: workflows-require-timeout
+      - id: poetry-check
+        additional_dependencies:
+          - poetry==1.8.3 # pypi
+      - id: poetry-lock
+        additional_dependencies:
+          - poetry==1.8.3 # pypi
+      - id: pipenv-lock
+        additional_dependencies:
+          - pipenv==2024.0.1 # pypi
+      - id: helm-lock
+  - repo: https://github.com/sirwart/ripsecrets
+    rev: v0.1.8
+    hooks:
+      - id: ripsecrets
+  - repo: https://github.com/sbrunner/jsonschema-validator
+    rev: 0.1.0
+    hooks:
+      - id: jsonschema-validator
+        files: |-
+          (?x)^(
+              ci/config\.yaml
+          )$

@@ -1,0 +1,66 @@
+[tool.black]
+line-length = 110
+target-version = ["py39"]
+
+[tool.mypy]
+python_version = "3.9"
+ignore_missing_imports = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_return_any = true
+strict = true
+
+[tool.poetry]
+name = "sbrunner-hooks"
+version = "0.0.0"
+description = "Pre commit hook by sbrunner"
+readme = "README.md"
+keywords = ["pre-commit"]
+license = "BSD-2-Clause"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "License :: OSI Approved :: BSD License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Typing :: Typed",
+]
+authors = ["Stéphane Brunner <stephane.brunner@gmail.com>"]
+repository = "https://github.com/sbrunner/hooks"
+
+[tool.poetry.scripts]
+copyright-check = "sbrunner_hooks.copyright:main"
+workflow-timeout-check = "sbrunner_hooks.workflow_timeout:main"
+run-in-dir = "sbrunner_hooks.run_in_dir:main"
+
+[tool.poetry.dependencies]
+python = ">=3.9,<4.0"
+BeautifulSoup4 = "4.12.3"
+requests = "2.32.3"
+
+[tool.poetry.group.dev.dependencies]
+prospector = { version = "1.10.3", extras = ["with_bandit", "with_mypy", "with_pyroma"] }
+prospector-profile-duplicated = "1.5.0"
+types-requests = "2.32.0.20240622"
+
+[build-system]
+requires = ["poetry-core==1.9.0", "poetry-dynamic-versioning==1.4.0", "poetry-plugin-tweak-dependencies-version==1.5.2", "poetry-plugin-drop-python-upper-constraint==0.1.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry-dynamic-versioning]
+enable = true
+vcs = "git"
+pattern = "^(?P<base>\\d+(\\.\\d+)*)"
+format-jinja = """
+{%- if env.get("VERSION_TYPE") == "version_branch" -%}
+{{serialize_pep440(bump_version(base, 1 if env.get("IS_MASTER") == "TRUE" else 2), dev=distance)}}
+{%- elif distance == 0 -%}
+{{serialize_pep440(base)}}
+{%- else -%}
+{{serialize_pep440(bump_version(base), dev=distance)}}
+{%- endif -%}
+"""
+
+[tool.poetry-plugin-tweak-dependencies-version]
+default = "present"

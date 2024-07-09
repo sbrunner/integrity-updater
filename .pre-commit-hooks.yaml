@@ -1,0 +1,6 @@
+- id: integrity-updater
+  name: Update the integrity of the HTML files
+  entry: integrity-updater
+  language: python
+  types:
+    - html
