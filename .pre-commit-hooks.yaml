@@ -1,6 +1,8 @@
 - id: integrity-updater
   name: Update the integrity of the HTML files
-  entry: integrity-updater
   language: python
+  entry: integrity-updater
+  args:
+    - --pre-commit
   types:
     - html
