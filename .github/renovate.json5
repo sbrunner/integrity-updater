@@ -17,6 +17,7 @@
   semanticCommits: 'disabled',
   'pre-commit': {
     enabled: true,
+    dependencyDashboardApproval: false,
   },
   osvVulnerabilityAlerts: true,
   vulnerabilityAlerts: {
@@ -43,7 +44,7 @@
       matchStrings: ['unpkg\\.com/(?<depName>[^@]+)@(?<currentValue>[^/]+)'],
       datasourceTemplate: 'npm',
     },
-    /** Manage jsdelivry */
+    /** Manage jsdelivr */
     {
       fileMatch: ['.*\\.html$'],
       matchStrings: ['cdn\\.jsdelivr\\.net/gh/(?<depName>[^@]+).github.io@master/en/(?<currentValue>[^/]+)'],
