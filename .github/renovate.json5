@@ -1,5 +1,5 @@
 {
-  extends: ['config:base'],
+  extends: ['group:monorepos', 'group:recommended', 'replacements:all', 'workarounds:all'],
   timezone: 'Europe/Zurich',
   schedule: 'after 5pm on the first day of the month',
   labels: ['dependencies'],
@@ -17,12 +17,6 @@
   semanticCommits: 'disabled',
   'pre-commit': {
     enabled: true,
-    dependencyDashboardApproval: false,
-  },
-  osvVulnerabilityAlerts: true,
-  vulnerabilityAlerts: {
-    schedule: ['at any time'],
-    automerge: true,
   },
   regexManagers: [
     /** Do updates on pre-commit additional dependencies */
