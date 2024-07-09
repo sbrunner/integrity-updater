@@ -39,13 +39,13 @@
     },
     /** Manage unpkg */
     {
-      fileMatch: ['\\.html$'],
+      fileMatch: ['.*\\.html$'],
       matchStrings: ['unpkg\\.com/(?<depName>[^@]+)@(?<currentValue>[^/]+)'],
       datasourceTemplate: 'npm',
     },
     /** Manage jsdelivry */
     {
-      fileMatch: ['\\.html$'],
+      fileMatch: ['.*\\.html$'],
       matchStrings: ['cdn\\.jsdelivr\\.net/gh/(?<depName>[^@]+).github.io@master/en/(?<currentValue>[^/]+)'],
       datasourceTemplate: 'github-tags',
     },
