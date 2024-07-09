@@ -28,7 +28,7 @@ jobs:
           GITHUB_EVENT: ${{ toJson(github) }}
 
       - run: echo "${HOME}/.local/bin" >> ${GITHUB_PATH}
-      - run: pip install --user --requirement=ci/requirements-pre-commit.txt
+      - run: pip install --user --requirement=ci/requirements.txt
       - run: pip install --user --editable=.
 
       - uses: actions/cache@v4
@@ -39,8 +39,6 @@ jobs:
             pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}
             pre-commit-
       - run: pre-commit run --all-files
-        env:
-          SKIP: poetry-lock,pipenv-lock,helm-lock
       - run: git diff --exit-code --patch > /tmp/pre-commit.patch || true
         if: failure()
 
@@ -50,6 +48,7 @@ jobs:
           path: /tmp/pre-commit.patch
           retention-days: 1
         if: failure()
+
   build:
     name: Run tests
     runs-on: ubuntu-22.04
@@ -59,12 +58,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/pre-commit
+          key: pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}
+          restore-keys: |
+            pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}
+            pre-commit-
+
       - run: echo "${HOME}/.local/bin" >> ${GITHUB_PATH}
       - run: pip install --requirement=ci/requirements.txt
-
+      - run: poetry install
       - run: poetry run prospector --output=pylint --die-on-tool-error
-      - run: poetry run integrity-upgrader tests/test.html
-      - run: diff -u tests/test.html tests/expected.html
+      - run: poetry run integrity-updater --pre-commit tests/test.html
+      - run: diff --unified tests/expected.html tests/test.html
 
   publish:
     name: Publish

@@ -7,6 +7,8 @@
   separateMinorPatch: true,
   prHourlyLimit: 0,
   prConcurrentLimit: 0,
+  /** Update the package every 7 days of stability */
+  stabilityDays: 7,
   lockFileMaintenance: {
     enabled: true,
     automerge: true,
@@ -33,6 +35,18 @@
       matchStrings: [
         '.*https://raw\\.githubusercontent\\.com/(?<depName>[^\\s]+)/(?<currentValue>[0-9\\.]+)/.*',
       ],
+      datasourceTemplate: 'github-tags',
+    },
+    /** Manage unpkg */
+    {
+      fileMatch: ['\\.html$'],
+      matchStrings: ['unpkg\\.com/(?<depName>[^@]+)@(?<currentValue>[^/]+)'],
+      datasourceTemplate: 'npm',
+    },
+    /** Manage jsdelivry */
+    {
+      fileMatch: ['\\.html$'],
+      matchStrings: ['cdn\\.jsdelivr\\.net/gh/(?<depName>[^@]+).github.io@master/en/(?<currentValue>[^/]+)'],
       datasourceTemplate: 'github-tags',
     },
   ],

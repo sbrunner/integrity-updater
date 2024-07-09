@@ -1,4 +1,3 @@
-
 # Integrity updater
 
 This script will update the SubResource integrity (SRI) in the HTML files.
@@ -23,5 +22,4 @@ repos:
     rev: <version> # Use the ref you want to point at
     hooks:
       - id: integrity-updater
-
 ```

@@ -1,23 +1,14 @@
 # https://pre-commit.com/hooks.html
 
-ci:
-  autoupdate_schedule: quarterly
-  skip:
-    - copyright
-    - workflows-require-timeout
-    - poetry-check
-    - poetry-lock
-    - pipenv-lock
-    - helm-lock
-    - ripsecrets
-    - jsonschema-validator
 repos:
   - repo: local
     hooks:
       - id: integrity-updater
         name: Update the integrity of the HTML files
-        entry: integrity-updater
         language: python
+        entry: integrity-updater
+        args:
+          - --pre-commit
         types:
           - html
         exclude: ^tests/test.html$

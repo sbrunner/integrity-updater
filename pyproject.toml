@@ -11,9 +11,9 @@ warn_return_any = true
 strict = true
 
 [tool.poetry]
-name = "sbrunner-hooks"
+name = "integrity-updater"
 version = "0.0.0"
-description = "Pre commit hook by sbrunner"
+description = "SubResource integrity updater"
 readme = "README.md"
 keywords = ["pre-commit"]
 license = "BSD-2-Clause"
@@ -27,12 +27,10 @@ classifiers = [
     "Typing :: Typed",
 ]
 authors = ["Stéphane Brunner <stephane.brunner@gmail.com>"]
-repository = "https://github.com/sbrunner/hooks"
+repository = "https://github.com/sbrunner/integrity-updater"
 
 [tool.poetry.scripts]
-copyright-check = "sbrunner_hooks.copyright:main"
-workflow-timeout-check = "sbrunner_hooks.workflow_timeout:main"
-run-in-dir = "sbrunner_hooks.run_in_dir:main"
+integrity-updater = "integrity_updater:main"
 
 [tool.poetry.dependencies]
 python = ">=3.9,<4.0"
