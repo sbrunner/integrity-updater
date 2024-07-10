@@ -43,7 +43,7 @@
     {
       fileMatch: ['.*\\.html$'],
       matchStrings: ['cdn\\.jsdelivr\\.net/npm/(?<depName>[^@]+)@(?<currentValue>[^/]+)'],
-      datasourceTemplate: 'github-tags',
+      datasourceTemplate: 'npm',
     },
   ],
   packageRules: [
