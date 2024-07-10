@@ -42,7 +42,7 @@
     /** Manage jsdelivr */
     {
       fileMatch: ['.*\\.html$'],
-      matchStrings: ['cdn\\.jsdelivr\\.net/gh/(?<depName>[^@]+).github.io@master/en/(?<currentValue>[^/]+)'],
+      matchStrings: ['cdn\\.jsdelivr\\.net/npm/(?<depName>[^@]+)@(?<currentValue>[^/]+)'],
       datasourceTemplate: 'github-tags',
     },
   ],
