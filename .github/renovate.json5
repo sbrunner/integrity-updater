@@ -1,6 +1,6 @@
 {
   extends: ['group:monorepos', 'group:recommended', 'replacements:all', 'workarounds:all'],
-  dashboard: true,
+  dependencyDashboard: true,
   timezone: 'Europe/Zurich',
   schedule: 'after 5pm on the first day of the month',
   labels: ['dependencies'],
