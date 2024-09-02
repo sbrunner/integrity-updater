@@ -19,7 +19,6 @@
   'pre-commit': {
     enabled: true,
   },
-  baseBranches: ['0.1', 'master'],
   regexManagers: [
     /** Do updates on pre-commit additional dependencies */
     {
