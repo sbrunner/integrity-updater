@@ -19,6 +19,7 @@
   'pre-commit': {
     enabled: true,
   },
+  baseBranches: ['0.1', 'master'],
   regexManagers: [
     /** Do updates on pre-commit additional dependencies */
     {
@@ -81,6 +82,11 @@
       matchFileNames: ['.github/**', '.pre-commit-config.yaml', 'ci/**'],
       groupName: 'CI dependencies',
       automerge: true,
+    },
+    /** For security reason don't takes the too early packages on stabilization branches */
+    {
+      matchBaseBranches: ['/^[0-9]+\\.[0-9]+$/'],
+      minimumReleaseAge: '7 days',
     },
   ],
 }
