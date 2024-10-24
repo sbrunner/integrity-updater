@@ -74,7 +74,7 @@ jobs:
       - run: pip install --requirement=ci/requirements.txt
       - run: poetry install
       - run: poetry run prospector --output=pylint --die-on-tool-error
-      - run: poetry run integrity-updater --pre-commit tests/test.html
+      - run: poetry run integrity-updater --pre-commit --blacklist=https://google\.com/ tests/test.html
       - run: diff --unified tests/expected.html tests/test.html
 
   publish:

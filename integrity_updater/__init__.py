@@ -9,6 +9,7 @@ import os.path
 import re
 import subprocess  # nosec
 import sys
+from typing import Optional
 
 import requests
 from bs4 import BeautifulSoup
@@ -36,10 +37,17 @@ _INTEGRITY_PATTERN = re.compile(
 
 
 def _update_tag(
-    tag: BeautifulSoup, src_attribute: str, crossorigin: bool, referrerpolicy: bool
+    tag: BeautifulSoup,
+    src_attribute: str,
+    cross_origin: bool,
+    referrer_policy: bool,
+    blacklist: Optional[re.Pattern[str]] = None,
 ) -> tuple[bool, bool]:
     changed = False
     if tag.has_attr(src_attribute) and tag[src_attribute].startswith("https://"):
+        if blacklist and blacklist.match(tag[src_attribute]):
+            return False, True
+
         algorithm = _DEFAULT_ALGORITHM
         if tag.has_attr("integrity"):
             match = _INTEGRITY_PATTERN.match(tag["integrity"])
@@ -58,11 +66,11 @@ def _update_tag(
             tag["integrity"] = integrity
             changed = True
 
-        if tag.get("crossorigin") is None and crossorigin:
+        if tag.get("crossorigin") is None and cross_origin:
             changed = True
             tag["crossorigin"] = "anonymous"
 
-        if tag.get("referrerpolicy") is None and referrerpolicy:
+        if tag.get("referrerpolicy") is None and referrer_policy:
             changed = True
             tag["referrerpolicy"] = "no-referrer"
     return changed, True
@@ -78,18 +86,19 @@ def main() -> None:
     args_parser.add_argument(
         "--no-crossorigin",
         action="store_false",
-        dest="crossorigin",
+        dest="cross_origin",
         default=True,
-        help="Do not add the crossorigin attribute",
+        help="Do not add the cross origin attribute",
     )
     args_parser.add_argument(
         "--no-referrerpolicy",
         action="store_false",
-        dest="referrerpolicy",
+        dest="referrer_policy",
         default=True,
-        help="Do not add the referrerpolicy attribute",
+        help="Do not add the referrer policy attribute",
     )
     args_parser.add_argument("--pre-commit", action="store_true", help="Run pre-commit on the updated files")
+    args_parser.add_argument("--blacklist", help="Regular expression to blacklist some URL")
     args_parser.add_argument("files", nargs=argparse.REMAINDER, help="The files to update")
     args = args_parser.parse_args()
 
@@ -103,6 +112,7 @@ def main() -> None:
             sys.exit(1)
 
     all_success = True
+    blacklist = re.compile(args.blacklist) if args.blacklist else None
     for file in args.files:
         with open(file, encoding="utf-8") as destination_file:
             content = destination_file.read()
@@ -110,7 +120,9 @@ def main() -> None:
         replace = {}
         for script in scripts:
             tag = BeautifulSoup(script, "html.parser")
-            updated, success = _update_tag(tag.find("script"), "src", args.crossorigin, args.referrerpolicy)
+            updated, success = _update_tag(
+                tag.find("script"), "src", args.cross_origin, args.referrer_policy, blacklist
+            )
             all_success = all_success and success
 
             if updated:
@@ -119,7 +131,9 @@ def main() -> None:
         styles = _LINK_RE.findall(content, re.MULTILINE)
         for style in styles:
             tag = BeautifulSoup(style, "html.parser")
-            updated, success = _update_tag(tag.find("link"), "href", args.crossorigin, args.referrerpolicy)
+            updated, success = _update_tag(
+                tag.find("link"), "href", args.cross_origin, args.referrer_policy, blacklist
+            )
             all_success = all_success and success
 
             if updated:

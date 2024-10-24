@@ -9,6 +9,7 @@ repos:
         entry: integrity-updater
         args:
           - --pre-commit
+          - --blacklist=https://google\.com/
         types:
           - html
         exclude: ^tests/test.html$
