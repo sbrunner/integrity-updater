@@ -1,4 +1,4 @@
 c2cciutils[checks,publish]==1.6.23
 pre-commit==4.0.1
-poetry==1.8.3
+poetry==1.8.4
 importlib-metadata<8.5.1
