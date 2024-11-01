@@ -25,11 +25,11 @@ repos:
         additional_dependencies:
           - poetry==1.8.3 # pypi
   - repo: https://github.com/pre-commit/pre-commit
-    rev: v3.8.0
+    rev: v4.0.1
     hooks:
       - id: validate_manifest
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.6.0
+    rev: v5.0.0
     hooks:
       - id: detect-private-key
       - id: check-merge-conflict
