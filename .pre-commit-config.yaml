@@ -55,12 +55,12 @@ repos:
     hooks:
       - id: docformatter
   - repo: https://github.com/PyCQA/prospector
-    rev: v1.12.1
+    rev: v1.13.3
     hooks:
       - id: prospector
         args: [--tool=pydocstyle, --die-on-tool-error]
         additional_dependencies:
-          - prospector-profile-duplicated==1.6.0 # pypi
+          - prospector-profile-duplicated==1.8.0 # pypi
   - repo: https://github.com/PyCQA/autoflake
     rev: v2.3.1
     hooks:
@@ -129,7 +129,7 @@ repos:
           - poetry==1.8.4 # pypi
       - id: pipenv-lock
         additional_dependencies:
-          - pipenv==2024.2.0 # pypi
+          - pipenv==2024.4.0 # pypi
       - id: helm-lock
   - repo: https://github.com/sirwart/ripsecrets
     rev: v0.1.8
@@ -140,7 +140,7 @@ repos:
     hooks:
       - id: renovate-config-validator
   - repo: https://github.com/sbrunner/jsonschema-validator
-    rev: 0.1.0
+    rev: 0.3.2
     hooks:
       - id: jsonschema-validator
         files: |-
