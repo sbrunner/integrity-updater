@@ -55,11 +55,17 @@ jobs:
           retention-days: 1
         if: failure()
 
+      # Mark the build as successful
+      - run: touch SUCCESS
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Pre-commit success
+          path: SUCCESS
+
   build:
     name: Run tests
     runs-on: ubuntu-24.04
     timeout-minutes: 15
-    needs: pre-commit
 
     steps:
       - uses: actions/checkout@v4
@@ -81,18 +87,32 @@ jobs:
       - run: poetry run integrity-updater --pre-commit --blacklist=https://google\.com/ tests/test.html
       - run: diff --unified tests/expected.html tests/test.html
 
+      # Mark the build as successful
+      - run: touch SUCCESS
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Build success
+          path: SUCCESS
+
   publish:
     name: Publish
     runs-on: ubuntu-24.04
     timeout-minutes: 15
-    if: "!startsWith(github.event.head_commit.message, '[skip ci] ')"
-    needs: success
+    if: always() && !startsWith(github.event.head_commit.message, '[skip ci] ')
+    needs:
+      - pre-commit
+      - build
 
     steps:
-      - name: Check if related check run failed
+      - name: Check if the pre-commit job was successful
         uses: actions/download-artifact@v4
         with:
-          name: Success
+          name: Pre-commit success
+      - name: Check if the build job was successful
+        uses: actions/download-artifact@v4
+        with:
+          name: Build success
+
       - uses: actions/checkout@v4
 
       - uses: actions/setup-python@v5
@@ -120,17 +140,3 @@ jobs:
           path: /tmp/dpkg-versions.patch
           retention-days: 1
         if: failure()
-  success:
-    name: Success
-    runs-on: ubuntu-22.04
-    timeout-minutes: 5
-    if: always() && !startsWith(github.event.head_commit.message, '[skip ci] ')
-    needs: build
-
-    steps:
-      - run: touch SUCCESS
-      - uses: actions/upload-artifact@v4
-        with:
-          name: Success
-          path: SUCCESS
-          retention-days: 1
