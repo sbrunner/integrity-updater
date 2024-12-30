@@ -8,6 +8,10 @@ on:
     tags:
       - '*'
 
+permissions:
+  contents: write
+  id-token: write
+
 env:
   HAS_SECRETS: ${{ secrets.HAS_SECRETS }}
   PYTHON_KEYRING_BACKEND: keyring.backends.null.Keyring
@@ -40,8 +44,8 @@ jobs:
           restore-keys: |
             pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}
             pre-commit-
-      - run: pre-commit run --all-files
-      - run: git diff --exit-code --patch > /tmp/pre-commit.patch || true
+      - run: pre-commit run --all-files --color=always
+      - run: git diff --exit-code --patch > /tmp/pre-commit.patch; git diff --color; git reset --hard || true
         if: failure()
 
       - uses: actions/upload-artifact@v4
@@ -82,9 +86,13 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     if: "!startsWith(github.event.head_commit.message, '[skip ci] ')"
-    needs: build
+    needs: success
 
     steps:
+      - name: Check if related check run failed
+        uses: actions/download-artifact@v4
+        with:
+          name: Success
       - uses: actions/checkout@v4
 
       - uses: actions/setup-python@v5
@@ -99,12 +107,12 @@ jobs:
           echo "password = ${{ secrets.PYPI_PASSWORD }}" >> ~/.pypirc
         if: env.HAS_SECRETS == 'HAS_SECRETS'
       - name: Publish
-        run: c2cciutils-publish
+        run: tag-publish
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         if: env.HAS_SECRETS == 'HAS_SECRETS'
-      - run: git diff --exit-code --patch > /tmp/dpkg-versions.patch || true
+      - run: git diff --exit-code --patch > /tmp/dpkg-versions.patch; git diff --color; git reset --hard || true
         if: failure()
       - uses: actions/upload-artifact@v4
         with:
@@ -112,3 +120,17 @@ jobs:
           path: /tmp/dpkg-versions.patch
           retention-days: 1
         if: failure()
+  success:
+    name: Success
+    runs-on: ubuntu-22.04
+    timeout-minutes: 5
+    if: always() && !startsWith(github.event.head_commit.message, '[skip ci] ')
+    needs: build
+
+    steps:
+      - run: touch SUCCESS
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Success
+          path: SUCCESS
+          retention-days: 1
