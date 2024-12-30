@@ -17,6 +17,7 @@ pylint:
 pycodestyle:
   disable:
     - E501 # line too long
+
 pydocstyle:
   disable:
     - D202 # no blank lines after function docstring
@@ -27,8 +28,14 @@ bandit:
 mypy:
   run: true
 
+  options:
+    python-version: '3.9'
 pyroma:
   run: true
 
 mccabe:
   run: false
+
+ruff:
+  options:
+    target-version: py39

@@ -29,9 +29,7 @@ _INTEGRITY_PATTERN = re.compile(
     (?P<b64digest>[a-zA-Z0-9+/]+[=]{{0,2}})   # W3C CSP2: base64-value
     (?P<options>\?[\041-\176]*)?            # RFC 5234 (ABNF): VCHAR
     [ \t]*                                  # RFC 5234 (ABNF): WSP
-    """.format(
-        "|".join(_RECOGNIZED_ALGORITHMS)
-    ),
+    """.format("|".join(_RECOGNIZED_ALGORITHMS)),
     re.VERBOSE,
 )
 
