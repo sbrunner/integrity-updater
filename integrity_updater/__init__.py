@@ -9,10 +9,10 @@ import os.path
 import re
 import subprocess  # nosec
 import sys
-from typing import Optional
+from typing import Optional, Union
 
 import requests
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, NavigableString, Tag
 
 CURRENT_YEAR = str(datetime.datetime.now().year)
 
@@ -35,42 +35,48 @@ _INTEGRITY_PATTERN = re.compile(
 
 
 def _update_tag(
-    tag: BeautifulSoup,
+    tag: Optional[Union[Tag, NavigableString]],
     src_attribute: str,
     cross_origin: bool,
     referrer_policy: bool,
     blacklist: Optional[re.Pattern[str]] = None,
 ) -> tuple[bool, bool]:
+    assert isinstance(tag, Tag)
     changed = False
-    if tag.has_attr(src_attribute) and tag[src_attribute].startswith("https://"):
-        if blacklist and blacklist.match(tag[src_attribute]):
-            return False, True
+    if tag.has_attr(src_attribute):
+        src_attribute_value = tag[src_attribute]
+        assert isinstance(src_attribute_value, str)
+        if src_attribute_value.startswith("https://"):
+            if blacklist and blacklist.match(src_attribute_value):
+                return False, True
 
-        algorithm = _DEFAULT_ALGORITHM
-        if tag.has_attr("integrity"):
-            match = _INTEGRITY_PATTERN.match(tag["integrity"])
-            if match is not None and match.group("algorithm") in _RECOGNIZED_ALGORITHMS:
-                algorithm = match.group("algorithm")
+            algorithm = _DEFAULT_ALGORITHM
+            if tag.has_attr("integrity"):
+                integrity_value = tag["integrity"]
+                assert isinstance(integrity_value, str)
+                match = _INTEGRITY_PATTERN.match(integrity_value)
+                if match is not None and match.group("algorithm") in _RECOGNIZED_ALGORITHMS:
+                    algorithm = match.group("algorithm")
 
-        response = requests.get(tag[src_attribute], timeout=30)
-        if not response.ok:
-            print("Error while fetching", tag[src_attribute])
-            return False, False
+            response = requests.get(src_attribute_value, timeout=30)
+            if not response.ok:
+                print("Error while fetching", src_attribute_value)
+                return False, False
 
-        hasher = hashlib.new(algorithm, response.content)
-        digest = hasher.digest()
-        integrity = f"{algorithm}-{base64.standard_b64encode(digest).decode()}"
-        if tag.get("integrity") != integrity:
-            tag["integrity"] = integrity
-            changed = True
+            hasher = hashlib.new(algorithm, response.content)
+            digest = hasher.digest()
+            integrity = f"{algorithm}-{base64.standard_b64encode(digest).decode()}"
+            if tag.get("integrity") != integrity:
+                tag["integrity"] = integrity
+                changed = True
 
-        if tag.get("crossorigin") is None and cross_origin:
-            changed = True
-            tag["crossorigin"] = "anonymous"
+            if tag.get("crossorigin") is None and cross_origin:
+                changed = True
+                tag["crossorigin"] = "anonymous"
 
-        if tag.get("referrerpolicy") is None and referrer_policy:
-            changed = True
-            tag["referrerpolicy"] = "no-referrer"
+            if tag.get("referrerpolicy") is None and referrer_policy:
+                changed = True
+                tag["referrerpolicy"] = "no-referrer"
     return changed, True
 
 
