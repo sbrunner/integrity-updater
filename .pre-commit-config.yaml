@@ -42,10 +42,6 @@ repos:
       - id: trailing-whitespace
       - id: mixed-line-ending
       - id: check-json
-  - repo: https://github.com/PyCQA/docformatter
-    rev: v1.7.5
-    hooks:
-      - id: docformatter
   - repo: https://github.com/PyCQA/prospector
     rev: v1.13.3
     hooks:
@@ -127,7 +123,7 @@ repos:
     hooks:
       - id: renovate-config-validator
   - repo: https://github.com/sbrunner/jsonschema-validator
-    rev: 0.3.2
+    rev: 1.0.0
     hooks:
       - id: jsonschema-validator
         files: |-
