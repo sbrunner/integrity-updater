@@ -42,10 +42,6 @@ repos:
       - id: trailing-whitespace
       - id: mixed-line-ending
       - id: check-json
-  - repo: https://github.com/PyCQA/docformatter
-    rev: v1.7.5
-    hooks:
-      - id: docformatter
   - repo: https://github.com/PyCQA/prospector
     rev: v1.13.3
     hooks:
