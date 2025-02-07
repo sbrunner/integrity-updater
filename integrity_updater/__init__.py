@@ -125,7 +125,11 @@ def main() -> None:
         for script in scripts:
             tag = BeautifulSoup(script, "html.parser")
             updated, success = _update_tag(
-                tag.find("script"), "src", args.cross_origin, args.referrer_policy, blacklist
+                tag.find("script"),
+                "src",
+                args.cross_origin,
+                args.referrer_policy,
+                blacklist,
             )
             all_success = all_success and success
 
@@ -136,7 +140,11 @@ def main() -> None:
         for style in styles:
             tag = BeautifulSoup(style, "html.parser")
             updated, success = _update_tag(
-                tag.find("link"), "href", args.cross_origin, args.referrer_policy, blacklist
+                tag.find("link"),
+                "href",
+                args.cross_origin,
+                args.referrer_policy,
+                blacklist,
             )
             all_success = all_success and success
 
@@ -156,7 +164,9 @@ def main() -> None:
                 else:
                     env["SKIP"] = "integrity-updater"
                 subprocess.run(  # pylint: disable=subprocess-run-check
-                    ["pre-commit", "run", "--color=never", "--file=" + file], env=env
+                    ["pre-commit", "run", "--color=never", "--file=" + file],
+                    env=env,
+                    check=False,
                 )  # nosec
 
     if not all_success:
