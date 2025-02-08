@@ -3,18 +3,19 @@
 
 import argparse
 import base64
-import datetime
 import hashlib
 import os.path
 import re
 import subprocess  # nosec
 import sys
+from datetime import datetime, timezone
+from pathlib import Path
 from typing import Optional, Union
 
 import requests
 from bs4 import BeautifulSoup, NavigableString, Tag
 
-CURRENT_YEAR = str(datetime.datetime.now().year)
+CURRENT_YEAR = str(datetime.now(timezone.utc).year)
 
 
 _DEFAULT_ALGORITHM = "sha384"
@@ -103,7 +104,7 @@ def main() -> None:
     )
     args_parser.add_argument("--pre-commit", action="store_true", help="Run pre-commit on the updated files")
     args_parser.add_argument("--blacklist", help="Regular expression to blacklist some URL")
-    args_parser.add_argument("files", nargs=argparse.REMAINDER, help="The files to update")
+    args_parser.add_argument("files", type=Path, nargs=argparse.REMAINDER, help="The files to update")
     args = args_parser.parse_args()
 
     if not args.files:
@@ -111,14 +112,14 @@ def main() -> None:
         sys.exit(1)
 
     for file in args.files:
-        if not os.path.isfile(file):
+        if not file.is_file():
             print(f"The file {file} does not exist")
             sys.exit(1)
 
     all_success = True
     blacklist = re.compile(args.blacklist) if args.blacklist else None
     for file in args.files:
-        with open(file, encoding="utf-8") as destination_file:
+        with file.open(encoding="utf-8") as destination_file:
             content = destination_file.read()
         scripts = _SCRIPT_RE.findall(content, re.MULTILINE)
         replace = {}
@@ -154,7 +155,7 @@ def main() -> None:
         if replace:
             for old, new in replace.items():
                 content = content.replace(old, new)
-            with open(file, "w", encoding="utf-8") as destination_file:
+            with file.open("w", encoding="utf-8") as destination_file:
                 destination_file.write(content)
 
             if args.pre_commit:
@@ -164,7 +165,7 @@ def main() -> None:
                 else:
                     env["SKIP"] = "integrity-updater"
                 subprocess.run(  # pylint: disable=subprocess-run-check
-                    ["pre-commit", "run", "--color=never", "--file=" + file],
+                    ["pre-commit", "run", "--color=never", f"--file={file}"],
                     env=env,
                     check=False,
                 )  # nosec
