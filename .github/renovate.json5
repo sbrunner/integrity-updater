@@ -11,7 +11,6 @@
     'github>camptocamp/gs-renovate-config-preset:security.json5#0.8.0',
     'github>camptocamp/gs-renovate-config-preset:own.json5#0.8.0',
   ],
-  dependencyDashboard: true,
   /** Update the package every 7 days of stability */
   stabilityDays: 7,
   customManagers: [
