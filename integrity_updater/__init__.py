@@ -22,15 +22,17 @@ _DEFAULT_ALGORITHM = "sha384"
 
 _RECOGNIZED_ALGORITHMS = ("sha512", "sha384", "sha256")
 
+_RECOGNIZED_ALGORITHMS_JOINED = "|".join(_RECOGNIZED_ALGORITHMS)
+
 _INTEGRITY_PATTERN = re.compile(
-    r"""
+    rf"""
     [ \t]*                                  # RFC 5234 (ABNF): WSP
-    (?P<algorithm>{})                       # W3C CSP2: hash-algo
+    (?P<algorithm>{_RECOGNIZED_ALGORITHMS_JOINED})                       # W3C CSP2: hash-algo
     -
     (?P<b64digest>[a-zA-Z0-9+/]+[=]{{0,2}})   # W3C CSP2: base64-value
     (?P<options>\?[\041-\176]*)?            # RFC 5234 (ABNF): VCHAR
     [ \t]*                                  # RFC 5234 (ABNF): WSP
-    """.format("|".join(_RECOGNIZED_ALGORITHMS)),
+    """,
     re.VERBOSE,
 )
 
@@ -165,7 +167,7 @@ def main() -> None:
                 else:
                     env["SKIP"] = "integrity-updater"
                 subprocess.run(  # pylint: disable=subprocess-run-check
-                    ["pre-commit", "run", "--color=never", f"--file={file}"],
+                    ["pre-commit", "run", "--color=never", f"--file={file}"],  # noqa: S607,RUF100
                     env=env,
                     check=False,
                 )  # nosec
