@@ -126,14 +126,14 @@ repos:
           - poetry==2.1.2 # pypi
       - id: pipenv-lock
         additional_dependencies:
-          - pipenv==2025.0.0 # pypi
+          - pipenv==2025.0.1 # pypi
       - id: helm-lock
   - repo: https://github.com/sirwart/ripsecrets
     rev: v0.1.9
     hooks:
       - id: ripsecrets
   - repo: https://github.com/renovatebot/pre-commit-hooks
-    rev: 39.257.6
+    rev: 39.257.8
     hooks:
       - id: renovate-config-validator
   - repo: https://github.com/sbrunner/jsonschema-validator
