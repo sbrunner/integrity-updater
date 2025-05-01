@@ -10,14 +10,14 @@ version = "0.0.0"
 
 [tool.poetry.dependencies]
 python = ">=3.9,<4.0"
-BeautifulSoup4 = "4.13.3"
+BeautifulSoup4 = "4.13.4"
 requests = "2.32.3"
 
 [tool.poetry.group.dev.dependencies]
 prospector = { version = "1.16.1", extras = ["with_bandit", "with_mypy", "with_pyroma", "with_ruff"] }
 prospector-profile-duplicated = "1.10.5"
 prospector-profile-utils = "1.22.3"
-types-requests = "2.32.0.20250306"
+types-requests = "2.32.0.20250328"
 types-beautifulsoup4 = "4.12.0.20250204"
 
 [tool.poetry-dynamic-versioning]
@@ -71,5 +71,5 @@ repository = "https://github.com/sbrunner/integrity-updater"
 integrity-updater = "integrity_updater:main"
 
 [build-system]
-requires = ["poetry-core==2.1.1", "poetry-dynamic-versioning==1.8.1", "poetry-plugin-tweak-dependencies-version==1.5.2", "poetry-plugin-drop-python-upper-constraint==1.0.0"]
+requires = ["poetry-core==2.1.2", "poetry-dynamic-versioning==1.8.2", "poetry-plugin-tweak-dependencies-version==1.5.2", "poetry-plugin-drop-python-upper-constraint==1.0.0"]
 build-backend = "poetry.core.masonry.api"
