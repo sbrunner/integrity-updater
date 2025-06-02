@@ -62,6 +62,7 @@ classifiers = [
 ]
 authors = [{name = "Stéphane Brunner",email = "stephane.brunner@gmail.com"}]
 requires-python = ">=3.9"
+dependencies = ["BeautifulSoup4", "requests"]
 
 [project.urls]
 repository = "https://github.com/sbrunner/integrity-updater"
