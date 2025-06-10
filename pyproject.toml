@@ -11,7 +11,7 @@ version = "0.0.0"
 [tool.poetry.dependencies]
 python = ">=3.9,<4.0"
 BeautifulSoup4 = "4.13.4"
-requests = "2.32.3"
+requests = "2.32.4"
 
 [tool.poetry.group.dev.dependencies]
 prospector = { version = "1.17.1", extras = ["with_bandit", "with_mypy", "with_pyroma", "with_ruff"] }
