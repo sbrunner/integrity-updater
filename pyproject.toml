@@ -17,7 +17,7 @@ requests = "2.32.4"
 prospector = { version = "1.17.2", extras = ["with_bandit", "with_mypy", "with_pyroma", "with_ruff"] }
 prospector-profile-duplicated = "1.10.5"
 prospector-profile-utils = "1.23.0"
-types-requests = "2.32.0.20250515"
+types-requests = "2.32.4.20250611"
 types-beautifulsoup4 = "4.12.0.20250516"
 
 [tool.poetry-dynamic-versioning]
