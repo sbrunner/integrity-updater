@@ -72,5 +72,5 @@ repository = "https://github.com/sbrunner/integrity-updater"
 integrity-updater = "integrity_updater:main"
 
 [build-system]
-requires = ["poetry-core==2.1.3", "poetry-dynamic-versioning==1.8.2", "poetry-plugin-tweak-dependencies-version==1.5.2", "poetry-plugin-drop-python-upper-constraint==1.0.0"]
+requires = ["poetry-core==2.1.3", "poetry-dynamic-versioning==1.9.1", "poetry-plugin-tweak-dependencies-version==1.5.2", "poetry-plugin-drop-python-upper-constraint==1.0.0"]
 build-backend = "poetry.core.masonry.api"
