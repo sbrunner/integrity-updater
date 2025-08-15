@@ -166,7 +166,7 @@ def main() -> None:
                     env["SKIP"] += ",integrity-updater"
                 else:
                     env["SKIP"] = "integrity-updater"
-                subprocess.run(  # pylint: disable=subprocess-run-check
+                subprocess.run(  # pylint: disable=subprocess-run-check # noqa: S603
                     ["pre-commit", "run", "--color=never", f"--file={file}"],  # noqa: S607,RUF100
                     env=env,
                     check=False,
