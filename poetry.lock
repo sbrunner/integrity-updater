@@ -595,14 +595,14 @@ prospector = ">=1.15.0"
 
 [[package]]
 name = "prospector-profile-utils"
-version = "1.26.1"
+version = "1.26.2"
 description = "Some utility Prospector profiles."
 optional = false
 python-versions = "*"
 groups = ["dev"]
 files = [
-    {file = "prospector_profile_utils-1.26.1-py2.py3-none-any.whl", hash = "sha256:5442b986c80c26c2b3f39e3a7f70d230d4045c6fdb679e3c535934f8d61d36a2"},
-    {file = "prospector_profile_utils-1.26.1.tar.gz", hash = "sha256:cec9f57eedb6f50f1106e3bb5a8409722c5db62756665d95c3178f2094994937"},
+    {file = "prospector_profile_utils-1.26.2-py2.py3-none-any.whl", hash = "sha256:7b57eb14666a9e4df6a10a2ac6feea02fff6c69d9b4c2e2b85e76848fa16412f"},
+    {file = "prospector_profile_utils-1.26.2.tar.gz", hash = "sha256:78830cc4ebb8f94a487f3afa03a5ba17dab06d8477ce61395b4de28d1a0d63c7"},
 ]
 
 [package.dependencies]
@@ -1194,4 +1194,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.9,<4.0"
-content-hash = "a1542e33e6c37a0f1e3fdde241c6f1e5cdba67b979b2733e3a68ca45353694da"
+content-hash = "45d9b2b2046d4b50abcae79b2d28877028380393d2bd584473f359ca5c692a14"
