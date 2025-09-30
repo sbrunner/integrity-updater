@@ -24,14 +24,14 @@ jobs:
     if: "!startsWith(github.event.head_commit.message, '[skip ci] ')"
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: GitHub event
         run: echo ${GITHUB_EVENT} | python3 -m json.tool
         env:
           GITHUB_EVENT: ${{ toJson(github) }}
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.13'
       - run: pip install --requirement=ci/requirements.txt
@@ -68,7 +68,7 @@ jobs:
     timeout-minutes: 15
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - uses: actions/cache@v4
         with:
@@ -78,7 +78,7 @@ jobs:
             pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}
             pre-commit-
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.13'
       - run: pip install --requirement=ci/requirements.txt
@@ -105,17 +105,17 @@ jobs:
 
     steps:
       - name: Check if the pre-commit job was successful
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: Pre-commit success
       - name: Check if the build job was successful
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: Build success
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.13'
       - run: python3 -m pip install --requirement=ci/requirements.txt
