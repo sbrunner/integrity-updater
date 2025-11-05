@@ -33,7 +33,7 @@ jobs:
 
       - uses: actions/setup-python@v6
         with:
-          python-version: '3.13'
+          python-version: '3.14'
       - run: pip install --requirement=ci/requirements.txt
       - run: pip install --editable=.
 
@@ -80,7 +80,7 @@ jobs:
 
       - uses: actions/setup-python@v6
         with:
-          python-version: '3.13'
+          python-version: '3.14'
       - run: pip install --requirement=ci/requirements.txt
       - run: poetry install
       - run: poetry run prospector --output=pylint --die-on-tool-error
@@ -117,7 +117,7 @@ jobs:
 
       - uses: actions/setup-python@v6
         with:
-          python-version: '3.13'
+          python-version: '3.14'
       - run: python3 -m pip install --requirement=ci/requirements.txt
 
       - name: Init pypi
