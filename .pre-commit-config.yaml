@@ -133,7 +133,7 @@ repos:
           - poetry==2.2.1 # pypi
       - id: pipenv-lock
         additional_dependencies:
-          - pipenv==2025.0.4 # pypi
+          - pipenv==2026.0.3 # pypi
       - id: helm-lock
   - repo: https://github.com/sirwart/ripsecrets
     rev: v0.1.9
