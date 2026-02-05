@@ -10,7 +10,6 @@ import subprocess  # nosec
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Optional, Union
 
 import requests
 from bs4 import BeautifulSoup, NavigableString, Tag
@@ -38,11 +37,11 @@ _INTEGRITY_PATTERN = re.compile(
 
 
 def _update_tag(
-    tag: Optional[Union[Tag, NavigableString]],
+    tag: Tag | NavigableString | None,
     src_attribute: str,
     cross_origin: bool,
     referrer_policy: bool,
-    blacklist: Optional[re.Pattern[str]] = None,
+    blacklist: re.Pattern[str] | None = None,
 ) -> tuple[bool, bool]:
     assert isinstance(tag, Tag)
     changed = False
