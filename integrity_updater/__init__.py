@@ -10,7 +10,6 @@ import subprocess  # nosec
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Optional, Union
 
 import requests
 from bs4 import BeautifulSoup, NavigableString, Tag
