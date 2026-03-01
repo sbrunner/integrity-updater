@@ -20,12 +20,12 @@ repos:
       - id: workflows-require-timeout
       - id: poetry2-lock
         additional_dependencies:
-          - poetry==2.3.1 # pypi
+          - poetry==2.3.2 # pypi
       - id: canonicalize
       - id: prospector-to-ruff
         additional_dependencies:
           - prospector-profile-duplicated==1.12.0 # pypi
-          - prospector-profile-utils==1.26.5 # pypi
+          - prospector-profile-utils==1.27.0 # pypi
         args:
           - --test=utils:tests
   - repo: https://github.com/pre-commit/pre-commit
@@ -57,9 +57,9 @@ repos:
           - --profile=.prospector.yaml
         additional_dependencies:
           - prospector-profile-duplicated==1.12.0 # pypi
-          - prospector-profile-utils==1.26.5 # pypi
-          - ruff==0.14.14 # pypi
-          - pylint[spelling]==4.0.4 # pypi
+          - prospector-profile-utils==1.27.0 # pypi
+          - ruff==0.15.2 # pypi
+          - pylint[spelling]==4.0.5 # pypi
         exclude: |-
           (?x)(
             ^tests?/?
@@ -76,8 +76,8 @@ repos:
           - --profile=utils:tests
           - --profile=utils:pre-commit
         additional_dependencies:
-          - prospector-profile-utils==1.26.5 # pypi
-          - ruff==0.14.14 # pypi
+          - prospector-profile-utils==1.27.0 # pypi
+          - ruff==0.15.2 # pypi
   - repo: https://github.com/codespell-project/codespell
     rev: v2.4.1
     hooks:
@@ -107,7 +107,7 @@ repos:
     hooks:
       - id: git-check
   - repo: https://github.com/python-jsonschema/check-jsonschema
-    rev: 0.36.1
+    rev: 0.36.2
     hooks:
       - id: check-github-workflows
       - id: check-github-actions
@@ -130,7 +130,7 @@ repos:
       - id: workflows-require-timeout
       - id: poetry-lock
         additional_dependencies:
-          - poetry==2.3.1 # pypi
+          - poetry==2.3.2 # pypi
       - id: pipenv-lock
         additional_dependencies:
           - pipenv==2026.0.3 # pypi
@@ -153,7 +153,7 @@ repos:
             |\.github/publish\.yaml
           )$
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.14.14
+    rev: v0.15.2
     hooks:
       - id: ruff-format
   - repo: https://github.com/sbrunner/python-versions-hook
