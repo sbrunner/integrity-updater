@@ -11,14 +11,17 @@
     'github>camptocamp/gs-renovate-config-preset:own.json5#1.5.1',
     'github>camptocamp/gs-renovate-config-preset:security.json5#1.5.1',
   ],
+  /** Update the package every 7 days of stability */
   minimumReleaseAge: '7 days',
   customManagers: [
+    /** Manage unpkg */
     {
       matchStrings: ['unpkg\\.com/(?<depName>[^@]+)@(?<currentValue>[^/]+)'],
       datasourceTemplate: 'npm',
       customType: 'regex',
       managerFilePatterns: ['/.*\\.html$/'],
     },
+    /** Manage jsdelivr */
     {
       matchStrings: ['cdn\\.jsdelivr\\.net/npm/(?<depName>[^@]+)@(?<currentValue>[^/]+)'],
       datasourceTemplate: 'npm',
