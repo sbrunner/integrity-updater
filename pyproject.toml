@@ -57,7 +57,7 @@ version = "0.0.0"
 
 [tool.poetry.dependencies]
 python = ">=3.10,<4.0"
-BeautifulSoup4 = "4.14.3"
+BeautifulSoup4 = "4.15.0"
 requests = "2.34.2"
 
 [tool.poetry.group.dev.dependencies]
