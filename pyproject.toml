@@ -28,7 +28,7 @@ requests = "2.34.2"
 prospector = { version = "1.19.1", extras = ["with_bandit", "with_mypy", "with_pyroma", "with_ruff"] }
 prospector-profile-duplicated = "1.12.0"
 prospector-profile-utils = "1.27.0"
-types-requests = "2.33.0.20260712"
+types-requests = "2.33.0.20260906"
 types-beautifulsoup4 = "4.12.0.20250516"
 ruff = "0.16.9"
 pylint = "4.0.9"
@@ -84,5 +84,5 @@ repository = "https://github.com/sbrunner/integrity-updater"
 integrity-updater = "integrity_updater:main"
 
 [build-system]
-requires = ["poetry-core==2.0.1", "poetry-dynamic-versioning[plugin]==1.10.0", "poetry-plugin-tweak-dependencies-version==1.5.6", "poetry-plugin-drop-python-upper-constraint==1.0.1"]
+requires = ["poetry-core==2.5.0", "poetry-dynamic-versioning[plugin]==1.10.0", "poetry-plugin-tweak-dependencies-version==1.5.7", "poetry-plugin-drop-python-upper-constraint==1.0.1"]
 build-backend = "poetry.core.masonry.api"
