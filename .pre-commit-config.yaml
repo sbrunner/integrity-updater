@@ -124,18 +124,6 @@ repos:
     rev: v0.1.9
     hooks:
       - id: ripsecrets
-  - repo: https://github.com/sbrunner/hooks
-    rev: 1.8.0
-    hooks:
-      - id: copyright
-      - id: workflows-require-timeout
-      - id: poetry-lock
-        additional_dependencies:
-          - poetry==2.5.1 # pypi
-      - id: pipenv-lock
-        additional_dependencies:
-          - pipenv==2026.8.0 # pypi
-      - id: helm-lock
   - repo: https://github.com/sirwart/ripsecrets
     rev: v0.1.9
     hooks:
