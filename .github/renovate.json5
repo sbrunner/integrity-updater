@@ -13,6 +13,17 @@
   ],
   /** Update the package every 7 days of stability */
   minimumReleaseAge: '7 days',
+  /**
+   * `poetry-plugin-drop-python-upper-constraint` is archived and pins `poetry<2.1.0`,
+   * which requires `poetry-core==2.0.1`. Bumping `poetry-core` past the 2.0.x line
+   * breaks the isolated build environment, so keep it below 2.1.0.
+   */
+  packageRules: [
+    {
+      matchPackageNames: ['poetry-core'],
+      allowedVersions: '<2.1.0',
+    },
+  ],
   customManagers: [
     /** Manage unpkg */
     {
