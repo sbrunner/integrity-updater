@@ -49,9 +49,6 @@ format-jinja = """
 {%- endif -%}
 """
 
-[tool.poetry-plugin-tweak-dependencies-version]
-default = "present"
-
 [project]
 dynamic = ["dependencies", "version"]
 name = "integrity-updater"
@@ -84,5 +81,5 @@ repository = "https://github.com/sbrunner/integrity-updater"
 integrity-updater = "integrity_updater:main"
 
 [build-system]
-requires = ["poetry-core==2.0.1", "poetry-dynamic-versioning[plugin]==1.10.1", "poetry-plugin-tweak-dependencies-version==1.5.7", "poetry-plugin-drop-python-upper-constraint==1.0.1"]
-build-backend = "poetry.core.masonry.api"
+requires = ["poetry-core==2.5.0", "poetry-dynamic-versioning[plugin]==1.10.1"]
+build-backend = "poetry_dynamic_versioning.backend"
